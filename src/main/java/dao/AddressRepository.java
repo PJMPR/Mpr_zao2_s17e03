@@ -2,9 +2,13 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import domain.Address;
+import domain.Person;
 
 public class AddressRepository {
 
@@ -20,8 +24,10 @@ public class AddressRepository {
 			+ "postcode VARCHAR(5)"			
 			+ ")";
 	
-	Statement createTable;
+	private String insertSql = "INSERT INTO address(streetName, streetNumber, houseNumber, city, postcode) VALUES (?,?,?,?,?)";
 	
+	Statement createTable;
+	PreparedStatement insert;	
 	
 	public AddressRepository(){
 		
@@ -29,6 +35,8 @@ public class AddressRepository {
 			
 			connection = DriverManager.getConnection(url);
 			createTable = connection.createStatement();
+			insert = connection.prepareStatement(insertSql);
+			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			boolean tableExists = false;
 			while(rs.next()){
@@ -43,6 +51,21 @@ public class AddressRepository {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void add(Address a){
+		
+		try {
+			insert.setString(1, a.getStreetName());
+			insert.setInt(2, a.getStreetNumber());
+			insert.setString(3, a.getHouseNumber());			
+			insert.setString(4, a.getCity());
+			insert.setString(5, a.getPostcode());
+			insert.executeUpdate();
+		} catch(SQLException ex){
+			ex.printStackTrace();
+		}
+		
 	}
 	
 }

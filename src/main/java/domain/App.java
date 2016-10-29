@@ -20,6 +20,17 @@ public class App
     	jan.setAge(30);
     	
     	repo.add(jan);
+    	
+    	Address dom = new Address();
+    	
+    	dom.setStreetName("Krakowska");
+    	dom.setStreetNumber(13);
+    	dom.setCity("Gdańsk");
+    	dom.setHouseNumber("5A");
+    	dom.setPostcode("80");
+    	
+    	addressRepo.add(dom);
+    	
         System.out.println( "koniec!" );
     }
 }

@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import domain.Person;
 
@@ -21,9 +23,17 @@ public class PersonRepository {
 			+ "age int"
 			+ ")";
 	private String insertSql = "INSERT INTO person(name, surname, age) VALUES (?,?,?)";
+	private String deleteSql = "DELETE FROM person WHERE id = ?";
+	private String updateSql = "UPDATE person SET name = ?, surname = ?, age = ? WHERE id = ?";
+	private String getSql = "SELECT * FROM person WHERE id = ?";
+	private String listSql = "SELECT * FROM person";
 	
 	Statement createTable;
 	PreparedStatement insert;
+	PreparedStatement deleteStatement;
+	PreparedStatement updateStatement;
+	PreparedStatement getStatement;
+	PreparedStatement listStatement;
 	
 	public PersonRepository(){
 		
@@ -32,6 +42,10 @@ public class PersonRepository {
 			connection = DriverManager.getConnection(url);
 			createTable = connection.createStatement();
 			insert = connection.prepareStatement(insertSql);
+			deleteStatement = connection.prepareStatement(deleteSql);
+			updateStatement = connection.prepareStatement(updateSql);
+			getStatement = connection.prepareStatement(getSql);
+			listStatement = connection.prepareStatement(listSql);
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			boolean tableExists = false;
@@ -50,11 +64,65 @@ public class PersonRepository {
 		}
 	}
 	
-	//public void delete(Person p)
-	//public void update(Person p)
-	//public Person get(int id)
-	//public List<Person> getAll()
-	// https://github.com/KubaNeumann/jdbcdemo
+	public void delete(Person p){
+		try{
+			deleteStatement.setInt(1, p.getId());
+			deleteStatement.executeUpdate();
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}
+	}
+
+	public void update(Person p){
+		try{
+			updateStatement.setString(1, p.getName());
+			updateStatement.setString(2, p.getSurname());
+			updateStatement.setInt(3, p.getAge());
+			updateStatement.setInt(4, p.getId());
+			updateStatement.executeUpdate();
+		}catch(SQLException ex){
+			ex.printStackTrace();
+		}
+	}
+
+	public Person get(int id){
+		Person p = new Person();
+
+		try {
+			getStatement.setInt(1, id);
+			ResultSet rs = getStatement.executeQuery();
+
+			p.setId(rs.getInt("id"));
+			p.setName(rs.getString("name"));
+			p.setSurname(rs.getString("surname"));
+			p.setAge(rs.getInt("age"));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return p;
+	}
+
+	public List<Person> getAll(){
+		List<Person> persons = new ArrayList<Person>();
+
+		try {
+			ResultSet rs = listStatement.executeQuery();
+
+			while (rs.next()) {
+				Person p = new Person();
+				p.setId(rs.getInt("id"));
+				p.setName(rs.getString("name"));
+				p.setSurname(rs.getString("surname"));
+				p.setAge(rs.getInt("age"));
+				persons.add(p);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return persons;
+	}
 	
 	public void add(Person p){
 		try{

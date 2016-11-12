@@ -39,7 +39,7 @@ public class AddressRepository {
 	PreparedStatement list;
 	
 	
-	public AddressRepository(){
+	public AddressRepository(String tableName){
 		
 		try {
 			
@@ -48,7 +48,7 @@ public class AddressRepository {
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			boolean tableExists = false;
 			while(rs.next()){
-				if("address".equalsIgnoreCase(rs.getString("TABLE_NAME"))){
+				if(tableName.equalsIgnoreCase(rs.getString("TABLE_NAME"))){
 					tableExists=true;
 					break;
 				}

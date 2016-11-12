@@ -21,9 +21,11 @@ public class PersonRepository {
 			+ "age int"
 			+ ")";
 	private String insertSql = "INSERT INTO person(name, surname, age) VALUES (?,?,?)";
+	private String deleteSql = "DELETE FROM person WHERE id=?";	
 	
 	Statement createTable;
 	PreparedStatement insert;
+	PreparedStatement delete;
 	
 	public PersonRepository(){
 		
@@ -31,7 +33,6 @@ public class PersonRepository {
 			
 			connection = DriverManager.getConnection(url);
 			createTable = connection.createStatement();
-			insert = connection.prepareStatement(insertSql);
 			
 			ResultSet rs = connection.getMetaData().getTables(null, null, null, null);
 			boolean tableExists = false;
@@ -44,17 +45,21 @@ public class PersonRepository {
 			if(!tableExists)
 				createTable.executeUpdate(createTableSql);
 				
+			insert = connection.prepareStatement(insertSql);
+			delete = connection.prepareStatement(deleteSql);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	//public void delete(Person p)
+	public void delete(Person p){
+		
+	}
 	//public void update(Person p)
 	//public Person get(int id)
 	//public List<Person> getAll()
-	// https://github.com/KubaNeumann/jdbcdemo
+	
 	
 	public void add(Person p){
 		try{

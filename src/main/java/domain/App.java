@@ -11,6 +11,9 @@ public class App
     	AddressRepository addressRepo = new AddressRepository();
     	Person jan = new Person();
     	
+    	System.out.println("test cik");
+    	
+    	
     	jan.setName("jan");
     	jan.setSurname("kowalski");
     	jan.setAge(30);

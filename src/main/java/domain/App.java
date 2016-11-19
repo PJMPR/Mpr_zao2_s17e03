@@ -12,7 +12,7 @@ public class App
     	Person jan = new Person();
     	
     	System.out.println("test cik");
-    	
+    	System.out.println("test2");
     	
     	jan.setName("jan");
     	jan.setSurname("kowalski");

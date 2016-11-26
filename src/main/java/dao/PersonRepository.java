@@ -10,12 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dao.mappers.IMapResultSetToEntity;
+import dao.uow.IUnitOfWork;
+import domain.Entity;
 import domain.Person;
 
-public class PersonRepository extends RepositoryBase<Person> {
+public class PersonRepository extends RepositoryBase<Person> 
+	implements IPersonRepository{
 
-	public PersonRepository(Connection connection, IMapResultSetToEntity<Person> mapper) {
-		super(connection,mapper);
+	public PersonRepository(Connection connection, 
+			IMapResultSetToEntity<Person> mapper,
+			IUnitOfWork uow) {
+		super(connection,mapper, uow);
 	}
 
 	public void setUpdateQuery(Person p) throws SQLException {
@@ -50,5 +55,11 @@ public class PersonRepository extends RepositoryBase<Person> {
 	protected String updateSql() {
 		return "UPDATE person SET name = ?, surname = ?, age = ? WHERE id = ?";
 	}
+
+	public List<Person> withName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

@@ -2,6 +2,9 @@ package domain.helpers;
 
 import static org.junit.Assert.*;
 
+import java.sql.Date;
+import java.util.GregorianCalendar;
+
 import org.junit.Test;
 
 public class PeselHelperTest {
@@ -30,5 +33,20 @@ public class PeselHelperTest {
 	public void checkPeselWithInvalidCheckSumTest(){
 		assertFalse(PeselHelper.check("96061010468"));
 	}
-
+	
+	@Test
+	public void extractDateFromPeselTest(){
+		Date date = PeselHelper.getDate("96061010469");
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.set(1996, 6, 10);
+		assertEquals(date, calendar.getTime());
+	}
+	
+	@Test
+	public void extractGenderFromPeselTest(){
+		Gender gender = PeselHelper.getGender("96061010469");
+		assertEquals(gender, Gender.Female);
+	}
+	
+	
 }

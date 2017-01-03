@@ -1,11 +1,17 @@
 package domain;
 
-public class Person extends Entity implements IHaveId{
+import java.util.List;
+
+public class Person extends Entity implements IHaveId {
 
 	private int id;
 	private String name;
 	private String surname;
 	private int age;
+	
+	private User user;
+	private List<Address> addresses;
+	
 	public int getId() {
 		return id;
 	}
@@ -30,6 +36,17 @@ public class Person extends Entity implements IHaveId{
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
 	
 }

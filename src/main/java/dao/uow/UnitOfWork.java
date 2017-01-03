@@ -57,7 +57,7 @@ public class UnitOfWork implements IUnitOfWork{
 		}
 		
 	}
-
+	//stany encji - przed zatwierdzeniem wykonania
 	public void markAsNew(Entity entity, IUnitOfWorkRepository repository) {
 		entity.setState(EntityState.New);
 		entities.put(entity, repository);

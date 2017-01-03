@@ -8,6 +8,9 @@ public class Address extends Entity implements IHaveId{
 	private String houseNumber;
 	private String city;
 	private String postcode;
+	
+	private Person person;
+	
 	public int getId() {
 		return id;
 	}
@@ -43,6 +46,12 @@ public class Address extends Entity implements IHaveId{
 	}
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
+	}
+	public Person getPerson() {
+		return person;
+	}
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 	
 }

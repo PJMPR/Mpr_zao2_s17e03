@@ -38,11 +38,21 @@ public abstract class RepositoryBase<TEntity extends IHaveId>
 			this.mapper = mapper;
 			this.connection = connection;
 			createTable = connection.createStatement();
-
-			ResultSet rs = connection.getMetaData().getTables(null, null, null,
-					null);
+//obiekt query do tworzenia tabeli
+			
+			
+			ResultSet rs = connection.getMetaData().getTables(null, null, null,null);
+			//
 			boolean tableExists = false;
+			//czy istnieje tabela o nazwie z implementacji table name
 			while (rs.next()) {
+
+//moje testy
+//				if (!"INFORMATION_SCHEMA".equals(rs.getString("TABLE_SCHEM")) && !"SYSTEM_LOBS".equals(rs.getString("TABLE_SCHEM"))) {
+//					System.out.println("Processing: "+rs.getString("TABLE_NAME"));
+//				}
+				System.out.println("Processing: "+rs.getString("TABLE_NAME"));
+//szukanie tabeli - warunek boolean
 				if (tableName().equalsIgnoreCase(rs.getString("TABLE_NAME"))) {
 					tableExists = true;
 					break;
@@ -50,7 +60,10 @@ public abstract class RepositoryBase<TEntity extends IHaveId>
 			}
 			if (!tableExists)
 				createTable.executeUpdate(createTableSql());
-
+//uruchomienie updatu stworzenie tabeli
+//abstract z pod klasy (tu def ale tam dokladna def)			
+			
+			
 			insert = connection.prepareStatement(insertSql());
 			delete = connection.prepareStatement(deleteSql());
 			update = connection.prepareStatement(updateSql());
@@ -153,6 +166,8 @@ public abstract class RepositoryBase<TEntity extends IHaveId>
 		return null;
 	}
 
+	
+	//wspolne queries dla wszystkich tabel
 	protected String deleteSql() {
 		return "DELETE FROM " + tableName() + " WHERE id=?";
 	}

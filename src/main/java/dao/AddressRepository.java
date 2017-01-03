@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dao.mappers.IMapResultSetToEntity;
 import dao.uow.IUnitOfWork;
@@ -15,9 +16,10 @@ import dao.uow.IUnitOfWorkRepository;
 import domain.Address;
 import domain.Person;
 
-public class AddressRepository extends RepositoryBase<Address>
-	implements IAddressRepository{
+public class AddressRepository extends RepositoryBase<Address> implements IAddressRepository{
 
+	//repozytorium adresow
+	
 	public AddressRepository(Connection connection,
 			IMapResultSetToEntity<Address> mapper,
 			IUnitOfWork uow) {
@@ -71,8 +73,13 @@ public class AddressRepository extends RepositoryBase<Address>
 	}
 
 	public List<Address> byPerson(Person person) {
-		// TODO Auto-generated method stub
-		return null;
+		//@formatter:off
+		return getAll()
+				.stream()
+				.filter(a -> person.equals(a.getPerson()))
+				.collect(Collectors
+						.toCollection(ArrayList::new));
+		//@formatter:on
 	}
 	
 }

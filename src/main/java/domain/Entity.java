@@ -1,6 +1,6 @@
 package domain;
 
-public abstract class Entity implements IHaveId{
+public abstract class Entity implements IHaveId {
 	
 	private EntityState state;
 	
@@ -13,7 +13,7 @@ public abstract class Entity implements IHaveId{
 	}
 	
 	public enum EntityState{
-		New, Modified, UnChanged, Deleted,Unknown
+		New, Modified, UnChanged, Deleted, Unknown
 	}
 
 }
